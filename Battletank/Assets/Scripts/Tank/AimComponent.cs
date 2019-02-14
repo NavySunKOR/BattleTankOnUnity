@@ -9,7 +9,6 @@ public class AimComponent : MonoBehaviour {
 
     public Transform turretTr;
     public Transform barrelTr;
-    private Vector3 pos;
     private Vector3 lookerTurretVec3;
     private Vector3 lookerBarrelVec3;
 
@@ -27,17 +26,16 @@ public class AimComponent : MonoBehaviour {
     IEnumerator AimAt(Vector3 position)
     {
 
-        pos = position;
-        Quaternion lookRotation = Quaternion.LookRotation(position - turretTr.position);
-        Vector3 turretVec3 = lookRotation.eulerAngles;
-        Vector3 barrelVec3 = lookRotation.eulerAngles;
+        lookerTurretVec3.y = position.y;
+        lookerBarrelVec3.x = position.x;
 
-        lookerTurretVec3.y = turretVec3.y;
-        lookerBarrelVec3.x = barrelVec3.x;
-        
-        if(lookerBarrelVec3.x > 0f && lookerBarrelVec3.x < 320f)
+        if (lookerBarrelVec3.x > 0f)
         { 
-            lookerBarrelVec3.x = (lookerBarrelVec3.x > 0f && lookerBarrelVec3.x < 180f) ? 0f :lookerBarrelVec3.x = 320f;
+            lookerBarrelVec3.x = 0f;
+        }
+        else if(lookerBarrelVec3.x < -40f)
+        {
+            lookerBarrelVec3.x = -40f;
         }
 
         turretTr.localEulerAngles = lookerTurretVec3;
@@ -46,9 +44,5 @@ public class AimComponent : MonoBehaviour {
 
         yield return null;
     }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawSphere(pos, 1f);
-    }
+    
 }

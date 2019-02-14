@@ -484,7 +484,12 @@ MonoBehaviour:
   cameraTr: {fileID: 697100208}
   armTr: {fileID: 645500470}
   isInverted: 0
-  distance: {x: 0, y: 0, z: 0}
+  cameraOffset: {x: 0, y: 0, z: 0}
+  pitch: 0
+  yaw: 0
+  collisionMask:
+    serializedVersion: 2
+    m_Bits: 0
   rotationSpeed: 5
 --- !u!1 &582612462
 GameObject:
@@ -510,7 +515,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 582612462}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: -10}
+  m_LocalPosition: {x: 0, y: 2, z: -0.84}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 995477253}
@@ -937,6 +942,7 @@ GameObject:
   - component: {fileID: 837946696}
   - component: {fileID: 837946701}
   - component: {fileID: 837946702}
+  - component: {fileID: 837946703}
   m_Layer: 0
   m_Name: Tank
   m_TagString: Untagged
@@ -974,7 +980,12 @@ MonoBehaviour:
   cameraTr: {fileID: 582612463}
   armTr: {fileID: 995477253}
   isInverted: 0
-  distance: {x: 0, y: 0, z: 0}
+  cameraOffset: {x: 0, y: 2, z: -10}
+  pitch: 0
+  yaw: 0
+  collisionMask:
+    serializedVersion: 2
+    m_Bits: 1536
   rotationSpeed: 5
 --- !u!114 &837946697
 MonoBehaviour:
@@ -1059,6 +1070,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!114 &837946703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 837946694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f0ff24237a1d83448362c799f9b9004, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  primaryWeapon:
+    damage: 30
+    bulletSpeed: 2000
+    bulletDrop: 5
+    blastRadius: 10
+  projectile: {fileID: 1488957054643552, guid: 295fdf946e40b7d4b889f752d67e7da8, type: 2}
+  firePos: {fileID: 1556604384}
 --- !u!1 &861256042
 GameObject:
   m_ObjectHideFlags: 0
@@ -1205,6 +1234,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 360890231}
+  - {fileID: 1556604384}
   m_Father: {fileID: 1068554442}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1348,6 +1378,34 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 23fbd94225aafc34287491829bef4228,
     type: 3}
   m_PrefabInternal: {fileID: 1115671456}
+--- !u!1 &1556604383
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1556604384}
+  m_Layer: 0
+  m_Name: FirePos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1556604384
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1556604383}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 4.77}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1006394223}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1575634531
 Prefab:
   m_ObjectHideFlags: 0

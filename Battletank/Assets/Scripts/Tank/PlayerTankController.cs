@@ -9,13 +9,14 @@ public class PlayerTankController : MonoBehaviour {
 
     private Tank tank;
     private Camera mainCamera;
-    private Transform cameraTr;
+    private ThirdPersonCamera trdCamera;
+    private Vector3 viewRotation;
 
     private void Awake()
     {
         mainCamera = Camera.main;
-        cameraTr = mainCamera.transform;
         tank = GetComponent<Tank>();
+        trdCamera = GetComponent<ThirdPersonCamera>();
     }
 
 
@@ -44,12 +45,9 @@ public class PlayerTankController : MonoBehaviour {
 
     private void AimProjection()
     {
-        Ray ray = new Ray(cameraTr.position, cameraTr.forward);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, tank.tankMaxRange, aimLayer))
-        {
-            tank.AimAt(hit.point);
-        }
+        //fuck the raycast.
+        viewRotation = new Vector3(trdCamera.pitch, trdCamera.yaw, 0);
+        tank.AimAt(viewRotation);
     }
 
     

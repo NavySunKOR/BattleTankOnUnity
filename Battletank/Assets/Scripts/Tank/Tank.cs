@@ -8,11 +8,13 @@ public class Tank : MonoBehaviour {
 
     private AimComponent aimComponent;
     private MovementComponent movementComponent;
+    private WeaponComponent weaponComponent;
 
 	// Use this for initialization
 	void Awake () {
         aimComponent = GetComponent<AimComponent>();
         movementComponent = GetComponent<MovementComponent>();
+        weaponComponent = GetComponent<WeaponComponent>();
     }
 
     public void AimAt(Vector3 position)
@@ -22,7 +24,7 @@ public class Tank : MonoBehaviour {
 
     public void FirePrimary()
     {
-
+        weaponComponent.FirePrimary();
     }
 
     public void Move(float vertical)

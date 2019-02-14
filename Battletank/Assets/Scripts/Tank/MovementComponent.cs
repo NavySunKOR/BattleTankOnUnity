@@ -30,9 +30,6 @@ public class MovementComponent : MonoBehaviour {
             rb.AddForce(speedInput, ForceMode.Acceleration);
 
         tankTr.Rotate(tankTr.up * rotationSpeed * horizontal * Time.deltaTime );
-
-        Debug.Log(rb.velocity);
-        
 	}
 
     public void Move(float vertical)
