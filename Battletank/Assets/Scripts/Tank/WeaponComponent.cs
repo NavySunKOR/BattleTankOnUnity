@@ -24,24 +24,14 @@ public class WeaponComponent : MonoBehaviour {
     public GameObject projectile;
     public Transform firePos;
 
-
-
-
-    // Use this for initialization
-    void Start () {
-    }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
     public void FirePrimary()
     {
         GameObject pro = Instantiate(projectile, firePos.position, Quaternion.identity) as GameObject;
         ProjectileComponent pc = pro.GetComponent<ProjectileComponent>();
         pc.bulletDrop = primaryWeapon.bulletDrop;
         pc.maxBulletSpeed = firePos.forward * primaryWeapon.bulletSpeed;
+        pc.blastRadius = primaryWeapon.blastRadius;
+        pc.damage = primaryWeapon.damage;
         pc.FireObject();
     }
 

@@ -25,8 +25,6 @@ public class PlayerTankController : MonoBehaviour {
     {
         AimProjection();
         InputControl();
-
-
     }
 
     private void InputControl()
@@ -40,14 +38,25 @@ public class PlayerTankController : MonoBehaviour {
         tank.Move(vertical);
         tank.Rotate(horizontal);
 
+        if(Input.GetKey(KeyCode.X))
+        {
+            tank.Repair();
+        }
+        else if(Input.GetKeyUp(KeyCode.X))
+        {
+            tank.ResetHoldRepair();
+        }
+
     }
 
 
     private void AimProjection()
     {
         //fuck the raycast.
-        viewRotation = new Vector3(trdCamera.pitch, trdCamera.yaw, 0);
+        viewRotation = new Vector3(trdCamera.pitch, trdCamera.armTr.localEulerAngles.y, 0);
         tank.AimAt(viewRotation);
+
+        
     }
 
     
