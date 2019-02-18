@@ -21,7 +21,7 @@ public class AITankController : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         MoveTowards();
-        //FireTowards();
+        FireTowards();
     }
 
     void MoveTowards()
@@ -34,7 +34,7 @@ public class AITankController : MonoBehaviour {
         }
         else
         {
-           //agent.isStopped = true;
+           agent.isStopped = true;
         }
     }
     
