@@ -17,6 +17,8 @@ public class PlayerTankController : MonoBehaviour {
     private ThirdPersonCamera trdCamera;
     private Vector3 viewRotation;
     private PlayerUIComponent uiComponent;
+    private bool isMagnified;
+    private bool isFirstPerson;
 
     private void Awake()
     {
@@ -24,6 +26,8 @@ public class PlayerTankController : MonoBehaviour {
         tank = GetComponent<Tank>();
         trdCamera = GetComponent<ThirdPersonCamera>();
         uiComponent = GetComponent<PlayerUIComponent>();
+        isMagnified = false;
+        isFirstPerson = false;
     }
 
 
@@ -32,6 +36,7 @@ public class PlayerTankController : MonoBehaviour {
     {
         AimProjection();
         InputControl();
+        CheckMagnified();
     }
 
     private void InputControl()
@@ -71,14 +76,31 @@ public class PlayerTankController : MonoBehaviour {
             MapActive();
         }
 
+        if(Input.GetMouseButtonDown(1))
+        {
+            isMagnified = !isMagnified;
+        }
+
+        if(Input.GetKeyDown(KeyCode.V))
+        {
+            isFirstPerson = !isFirstPerson;
+        }
+
     }
 
 
     private void AimProjection()
     {
-        //fuck the raycast.
-        viewRotation = new Vector3(trdCamera.pitch, trdCamera.armTr.localEulerAngles.y, 0);
-        tank.AimAt(viewRotation);
+        Transform cameraTr = trdCamera.cameraTr;
+        Ray ray = new Ray(cameraTr.position, cameraTr.forward);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        {
+            Vector3 lookEuler = Quaternion.LookRotation((hit.point - cameraTr.position).normalized).eulerAngles;
+            lookEuler.x = trdCamera.pitch;
+            tank.AimAt(lookEuler);
+        }
     }
 
     private void MapActive()
@@ -94,5 +116,19 @@ public class PlayerTankController : MonoBehaviour {
         }
     }
 
-    
+    private void CheckMagnified()
+    {
+        if(isFirstPerson)
+        {
+            trdCamera.cameraOffset.z = (isMagnified) ? 5f : 0f;
+        }
+        else
+        {
+            trdCamera.cameraOffset.z = (isMagnified) ? -5f : -10f;
+        }
+       // 
+    }
+
+
+
 }

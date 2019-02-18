@@ -34,8 +34,11 @@ public class ThirdPersonCamera : MonoBehaviour {
 
         pitch += vertical * rotationSpeed;
         yaw += horizontal * rotationSpeed;
-        
-        
+
+        pitch = Mathf.Clamp(pitch, -13f, 13f);
+
+
+
         armTr.eulerAngles = Vector3.Lerp(armTr.eulerAngles, new Vector3(pitch, yaw, 0),1f);
 
         targetPosition = armTr.position + armTr.forward * cameraOffset.z + armTr.up * cameraOffset.y + armTr.right * cameraOffset.x;

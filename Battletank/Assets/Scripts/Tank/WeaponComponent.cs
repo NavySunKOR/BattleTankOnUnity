@@ -113,16 +113,6 @@ public class WeaponComponent : MonoBehaviour {
 
     }
 
-    public void Magnify()
-    {
-
-    }
-
-    public void Repair()
-    {
-
-    }
-
     private void SetPrimaryWeapon(PrimaryWeaponType primaryWeaponType)
     {
         if(primaryWeapon == null)
