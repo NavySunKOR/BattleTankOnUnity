@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33309260806145314}
   - component: {fileID: 23900076454144392}
   - component: {fileID: 95152549320158754}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: tank_fbx_Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37,7 +37,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4143757530187268}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BarrelActual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 33580733239494108}
   - component: {fileID: 23200352254226470}
   - component: {fileID: 95413161273549576}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: tank_fbx_Track
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,7 +70,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4094642631367234}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: TankBodyActual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,7 +85,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4981952645457142}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: TrackActual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4892951137572862}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: FirePos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,7 +115,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4178573547305254}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: TurretActual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 4417712688635980}
   - component: {fileID: 20997055135289924}
   - component: {fileID: 81180144084116338}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -147,7 +147,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4080105376977358}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: TrackActual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +170,7 @@ GameObject:
   - component: {fileID: 65208221031806808}
   - component: {fileID: 54501431357252502}
   - component: {fileID: 114103680498190664}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PlayerTank
   m_TagString: Tank
   m_Icon: {fileID: 0}
@@ -185,7 +185,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4744241671026922}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -203,7 +203,7 @@ GameObject:
   - component: {fileID: 33957796469553642}
   - component: {fileID: 23016535929506846}
   - component: {fileID: 95256080746274630}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: tank_fbx_Track
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -221,7 +221,7 @@ GameObject:
   - component: {fileID: 33828194344312152}
   - component: {fileID: 23553278538389784}
   - component: {fileID: 95473420555897674}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: tank_fbx_Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -239,7 +239,7 @@ GameObject:
   - component: {fileID: 33661192718917698}
   - component: {fileID: 23921648503074876}
   - component: {fileID: 95280658725606238}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: tank_fbx_Barrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -339,7 +339,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1784779197415194}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 301.0167, y: 0, z: 200.92868}
+  m_LocalPosition: {x: 357.9, y: 0, z: 239.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4094642631367234}
@@ -849,8 +849,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   primaryWeapon:
     damage: 30
-    bulletSpeed: 2000
-    bulletDrop: 5
+    bulletSpeed: 300
+    bulletDrop: 0.5
     blastRadius: 5
   projectile: {fileID: 1488957054643552, guid: 295fdf946e40b7d4b889f752d67e7da8, type: 2}
   firePos: {fileID: 4892951137572862}
@@ -882,7 +882,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tankMaxRange: 100000
   health: 100
-  rpm: 5
+  primaryRpm: 10
+  secondaryRpm: 10
+  repairInterval: 20
+  repairHoldInterval: 10
+  primaryBulletType: 0
+  secondaryBulletType: 3
 --- !u!114 &114832240653692898
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -897,7 +902,7 @@ MonoBehaviour:
   tankTr: {fileID: 4094642631367234}
   tankSpeed: 15
   maximumSpeed: 20
-  rotationSpeed: 10
+  rotationSpeed: 30
 --- !u!114 &114859260155133636
 MonoBehaviour:
   m_ObjectHideFlags: 1

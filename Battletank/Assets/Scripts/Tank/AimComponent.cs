@@ -37,8 +37,8 @@ public class AimComponent : MonoBehaviour {
         {
             lookerBarrelVec3.x = -40f;
         }
-
-        turretTr.localEulerAngles = lookerTurretVec3;
+        
+        turretTr.eulerAngles = lookerTurretVec3;
         barrelTr.localEulerAngles = lookerBarrelVec3;
 
 

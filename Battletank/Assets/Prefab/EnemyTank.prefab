@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4575382006154252}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TrackActual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37,7 +37,7 @@ GameObject:
   - component: {fileID: 33749883585009472}
   - component: {fileID: 23931702364384718}
   - component: {fileID: 95347330990769240}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: tank_fbx_Track
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 33584920079579618}
   - component: {fileID: 23310962713596980}
   - component: {fileID: 95161249875307010}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: tank_fbx_Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,7 +70,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4096577106194302}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TrackActual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 33200875425738702}
   - component: {fileID: 23715509803959606}
   - component: {fileID: 95519185874242202}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: tank_fbx_Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,7 +103,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4319699738511404}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BarrelActual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -118,7 +118,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4556523607841876}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TankBodyActual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 33623700957730602}
   - component: {fileID: 23399729435634158}
   - component: {fileID: 95504994441773466}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: tank_fbx_Track
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -156,10 +156,9 @@ GameObject:
   - component: {fileID: 54159557845770694}
   - component: {fileID: 114342223041609996}
   - component: {fileID: 114658273972632418}
-  - component: {fileID: 114912723024559146}
   - component: {fileID: 114819372766035466}
   - component: {fileID: 114804490526617528}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: EnemyTank
   m_TagString: Tank
   m_Icon: {fileID: 0}
@@ -174,7 +173,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4824114073246670}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TurretActual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -192,7 +191,7 @@ GameObject:
   - component: {fileID: 33270063789216466}
   - component: {fileID: 23993215289763764}
   - component: {fileID: 95970562740697808}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: tank_fbx_Barrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -207,7 +206,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4831380131263846}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: FirePos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -234,7 +233,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1577188765558086}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 342.87, y: 2, z: 249.9}
+  m_LocalPosition: {x: 342.87, y: 0.05, z: 292}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4556523607841876}
@@ -720,6 +719,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTr: {fileID: 0}
+  trackingDistance: 100
+  fireDistance: 150
 --- !u!114 &114658273972632418
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -766,22 +767,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tankMaxRange: 100000
   health: 100
-  rpm: 5
---- !u!114 &114912723024559146
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1577188765558086}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f9241213d1c43d42b696cc1a9bcfbf2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tankTr: {fileID: 4556523607841876}
-  tankSpeed: 15
-  maximumSpeed: 20
-  rotationSpeed: 10
+  primaryRpm: 10
+  secondaryRpm: 10
+  repairInterval: 20
+  repairHoldInterval: 10
+  primaryBulletType: 0
+  secondaryBulletType: 4
 --- !u!195 &195853334983254752
 NavMeshAgent:
   m_ObjectHideFlags: 1
@@ -790,12 +781,12 @@ NavMeshAgent:
   m_GameObject: {fileID: 1577188765558086}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
+  m_Radius: 2
+  m_Speed: 20
   m_Acceleration: 50
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 250
+  m_StoppingDistance: 100
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1

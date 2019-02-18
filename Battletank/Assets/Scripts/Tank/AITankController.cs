@@ -6,6 +6,8 @@ using UnityEngine.AI;
 public class AITankController : MonoBehaviour {
 
     public Transform playerTr;
+    public float trackingDistance;
+    public float fireDistance;
     private Tank tank;
     private NavMeshAgent agent;
 
@@ -19,15 +21,20 @@ public class AITankController : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         MoveTowards();
-        FireTowards();
+        //FireTowards();
     }
 
     void MoveTowards()
     {
-        if(Vector3.Distance(playerTr.position,transform.position) > 300)
+        if(Vector3.Distance(playerTr.position,transform.position) > trackingDistance)
         {
-            Debug.Log("Im moving");
-            agent.SetDestination(playerTr.position);
+            //Debug.Log("Im moving");
+            agent.isStopped = false;
+            agent.destination = playerTr.position;
+        }
+        else
+        {
+           //agent.isStopped = true;
         }
     }
     
@@ -35,13 +42,13 @@ public class AITankController : MonoBehaviour {
     {
         Ray ray = new Ray(transform.position, (playerTr.position - transform.position).normalized);
         RaycastHit hit;
+        Debug.DrawRay(transform.position,(playerTr.position - transform.position).normalized * fireDistance);
 
-        if(Physics.Raycast(ray,out hit,350,~(1<<8)))
+        if(Physics.Raycast(ray,out hit, fireDistance,1<<11))
         {
-            Debug.Log("Found you!");
-            Vector3 lookEuler = Quaternion.LookRotation(hit.point - transform.position).eulerAngles;
+            Vector3 lookEuler = Quaternion.LookRotation((hit.point - transform.position).normalized).eulerAngles;
             tank.AimAt(lookEuler);
-            tank.FirePrimary();
+            tank.Fire();
         }
 
 

@@ -6,21 +6,22 @@ public class Tank : MonoBehaviour {
 
     public float tankMaxRange = 100000f;
     public int health = 100;
-    public float rpm;
     public float repairInterval;
     public float repairHoldInterval;
+    public PrimaryWeaponType primaryBulletType;
+    public SecondaryWeaponType secondaryBulletType;
 
     private AimComponent aimComponent;
     private MovementComponent movementComponent;
     private WeaponComponent weaponComponent;
-    private float fireTimer;
     private float repairTimer;
     private float repairHoldTimer;
+    private WeaponType weaponType;
 
-	// Use this for initialization
-	private void Awake () {
-        rpm = 60f/rpm;
-        fireTimer = 0;
+
+    // Use this for initialization
+    private void Awake () {
+        weaponType = WeaponType.Primary;
         repairTimer = 0f;
         repairHoldTimer = 0f;
         aimComponent = GetComponent<AimComponent>();
@@ -41,13 +42,21 @@ public class Tank : MonoBehaviour {
         aimComponent.StartCoroutine("AimAt",position);
     }
 
-    public void FirePrimary()
+    public void Fire()
     {
-        if(Time.time - fireTimer > rpm)
+        if(weaponType == WeaponType.Primary)
         {
-            fireTimer = Time.time;
-            weaponComponent.FirePrimary();
+            weaponComponent.FirePrimary(primaryBulletType);
         }
+        else
+        {
+            weaponComponent.FireSecondary(secondaryBulletType);
+        }
+    }
+
+    public void SetWeaponType(WeaponType weaponType)
+    {
+        this.weaponType = weaponType;
     }
 
     public void Repair()
