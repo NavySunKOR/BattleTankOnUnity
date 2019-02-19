@@ -37,34 +37,43 @@ public class WeaponComponent : MonoBehaviour {
     public Transform firePos;
 
     private bool mortarOn;
+    private bool isDead;
+    private bool isRepairing;
+
+    private void Start()
+    {
+        isDead = false;
+        isRepairing = false;
+    }
 
     private void Update()
     {
-        if(mortarOn)
+        if(!isDead && !isRepairing)
         {
-            GameObject map = GetComponent<PlayerTankController>().map;
-            if (Input.GetMouseButtonDown(0) && Time.time - secondaryWeapon.fireTimer > secondaryWeapon.rpm)
+            if (mortarOn)
             {
-                Vector3 clickedPosition = map.GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
+                GameObject map = GetComponent<PlayerTankController>().map;
+                if (Input.GetMouseButtonDown(0) && Time.time - secondaryWeapon.fireTimer > secondaryWeapon.rpm)
+                {
+                    Vector3 clickedPosition = map.GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
                     //firer
-                Debug.Log("Firing Mortar on :" + clickedPosition);
-                
-                GameObject pro = Instantiate(projectile, new Vector3(clickedPosition.x,map.transform.position.y, clickedPosition.z), Quaternion.identity) as GameObject;
-                secondaryWeapon.fireTimer = Time.time;
-                secondaryWeapon.fireDir = -pro.transform.up;
+                    Debug.Log("Firing Mortar on :" + clickedPosition);
 
-                ProjectileComponent pc = pro.GetComponent<ProjectileComponent>();
-                pc.SetWeaponType(secondaryWeapon);
-                pc.SetFireInstanceId(transform.GetInstanceID());
-                pc.FireObject();
-            }
-            if (!map.activeSelf)
-            {
-                mortarOn = false;
+                    GameObject pro = Instantiate(projectile, new Vector3(clickedPosition.x, map.transform.position.y, clickedPosition.z), Quaternion.identity) as GameObject;
+                    secondaryWeapon.fireTimer = Time.time;
+                    secondaryWeapon.fireDir = -pro.transform.up;
+
+                    ProjectileComponent pc = pro.GetComponent<ProjectileComponent>();
+                    pc.SetWeaponType(secondaryWeapon);
+                    pc.SetFireInstanceId(transform.GetInstanceID());
+                    pc.FireObject();
+                }
+                if (!map.activeSelf)
+                {
+                    mortarOn = false;
+                }
             }
         }
-
-        
     }
 
     public void FirePrimary(PrimaryWeaponType bulletType)
@@ -188,6 +197,16 @@ public class WeaponComponent : MonoBehaviour {
             secondaryWeapon.damage = 10;
             secondaryWeapon.rpm = 60f / 30f;
         }
+    }
+
+    public void DisabledFunction()
+    {
+        isDead = true;
+    }
+
+    public void SetRepairFunction()
+    {
+        isRepairing = !isRepairing;
     }
 
 }

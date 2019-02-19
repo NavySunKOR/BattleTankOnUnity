@@ -11,29 +11,43 @@ public class Tank : MonoBehaviour {
     public PrimaryWeaponType primaryBulletType;
     public SecondaryWeaponType secondaryBulletType;
 
+    private PlayerTankController playerTankController;
     private AimComponent aimComponent;
     private MovementComponent movementComponent;
     private WeaponComponent weaponComponent;
-    private float repairTimer;
+    private PlayerUIComponent playerUIComponent;
     private float repairHoldTimer;
     private WeaponType weaponType;
+    private bool isRepairing;
+
 
 
     // Use this for initialization
     private void Awake () {
         weaponType = WeaponType.Primary;
-        repairTimer = 0f;
         repairHoldTimer = 0f;
         aimComponent = GetComponent<AimComponent>();
         movementComponent = GetComponent<MovementComponent>();
         weaponComponent = GetComponent<WeaponComponent>();
+        playerUIComponent = GetComponent<PlayerUIComponent>();
+        playerTankController = GetComponent<PlayerTankController>();
+        UpdateHealth();
     }
 
     private void Update()
     {
         if(health <= 0)
         {
-            Destroy(gameObject);
+            health = 0;
+            UpdateHealth();
+            if (gameObject.layer == 11)
+            {
+                playerTankController.DisableFunction();
+                weaponComponent.DisabledFunction();
+                movementComponent.DisableFunction();
+            }
+            else
+                Destroy(gameObject);
         }
     }
 
@@ -44,13 +58,16 @@ public class Tank : MonoBehaviour {
 
     public void Fire()
     {
-        if(weaponType == WeaponType.Primary)
+        if(!isRepairing)
         {
-            weaponComponent.FirePrimary(primaryBulletType);
-        }
-        else
-        {
-            weaponComponent.FireSecondary(secondaryBulletType);
+            if (weaponType == WeaponType.Primary)
+            {
+                weaponComponent.FirePrimary(primaryBulletType);
+            }
+            else
+            {
+                weaponComponent.FireSecondary(secondaryBulletType);
+            }
         }
     }
 
@@ -61,19 +78,18 @@ public class Tank : MonoBehaviour {
 
     public void Repair()
     {
-        if(Time.time - repairTimer>repairInterval)
+        repairHoldTimer += Time.deltaTime;
+        UpdateFixUI(repairHoldTimer);
+        if (repairHoldTimer > repairHoldInterval)
         {
-            repairHoldTimer += Time.deltaTime;
-            if(repairHoldTimer > repairHoldInterval)
+            //add UI
+            ResetHoldRepair();
+            health += 30;
+            if (health > 100)
             {
-                //add UI
-                ResetHoldRepair();
-                health += 30;
-                if (health > 100)
-                {
-                    health = 100;
-                }
+                health = 100;
             }
+            UpdateHealth();
         }
     }
 
@@ -90,10 +106,31 @@ public class Tank : MonoBehaviour {
     public void TookDamage(int damage)
     {
         health -= damage;
+        UpdateHealth();
     }
 
     public void ResetHoldRepair()
     {
         repairHoldTimer = 0f;
+        UpdateFixUI(repairHoldTimer);
     }
+
+    public void SetRepairFunction()
+    {
+        isRepairing = !isRepairing;
+    }
+
+    private void UpdateFixUI(float timer)
+    {
+        if (gameObject.layer == 11)
+            playerUIComponent.UpdateFixUI(repairHoldTimer);
+    }
+
+    private void UpdateHealth()
+    {
+        if(gameObject.layer == 11)
+            playerUIComponent.UpdateHealth(health);
+    }
+
+    
 }

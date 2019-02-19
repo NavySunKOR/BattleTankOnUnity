@@ -11,12 +11,10 @@ public class TestAI : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         nav = GetComponent<NavMeshAgent>();
-
     }
 	
 	// Update is called once per frame
 	void Update () {
         nav.SetDestination(playerTr.position);
-
     }
 }

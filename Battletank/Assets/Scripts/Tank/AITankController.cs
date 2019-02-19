@@ -42,7 +42,6 @@ public class AITankController : MonoBehaviour {
     {
         Ray ray = new Ray(transform.position, (playerTr.position - transform.position).normalized);
         RaycastHit hit;
-        Debug.DrawRay(transform.position,(playerTr.position - transform.position).normalized * fireDistance);
 
         if(Physics.Raycast(ray,out hit, fireDistance,1<<11))
         {
@@ -50,7 +49,6 @@ public class AITankController : MonoBehaviour {
             tank.AimAt(lookEuler);
             tank.Fire();
         }
-
-
+  
     }
 }

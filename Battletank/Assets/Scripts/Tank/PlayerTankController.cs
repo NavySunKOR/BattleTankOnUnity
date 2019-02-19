@@ -17,8 +17,11 @@ public class PlayerTankController : MonoBehaviour {
     private ThirdPersonCamera trdCamera;
     private Vector3 viewRotation;
     private PlayerUIComponent uiComponent;
+    private WeaponComponent weaponComponent;
+    private MovementComponent movementComponent;
     private bool isMagnified;
     private bool isFirstPerson;
+    private bool isDead;
 
     private void Awake()
     {
@@ -26,17 +29,31 @@ public class PlayerTankController : MonoBehaviour {
         tank = GetComponent<Tank>();
         trdCamera = GetComponent<ThirdPersonCamera>();
         uiComponent = GetComponent<PlayerUIComponent>();
+        //
+        weaponComponent = GetComponent<WeaponComponent>();
+        movementComponent = GetComponent<MovementComponent>();
+
         isMagnified = false;
         isFirstPerson = false;
+        isDead = false;
     }
 
 
 
     private void Update()
     {
-        AimProjection();
-        InputControl();
-        CheckMagnified();
+        if(!isDead)
+        {
+            AimProjection();
+            InputControl();
+            CheckMagnified();
+        }
+    }
+    
+
+    public void DisableFunction()
+    {
+        isDead = true;
     }
 
     private void InputControl()
@@ -51,6 +68,11 @@ public class PlayerTankController : MonoBehaviour {
         tank.Move(vertical);
         tank.Rotate(horizontal);
 
+        if(Input.GetKeyDown(KeyCode.X))
+        {
+            SetFixState();
+        }
+
         if(Input.GetKey(KeyCode.X))
         {
             tank.Repair();
@@ -58,6 +80,7 @@ public class PlayerTankController : MonoBehaviour {
         else if(Input.GetKeyUp(KeyCode.X))
         {
             tank.ResetHoldRepair();
+            SetFixState();
         }
 
         if(Input.GetKeyDown(KeyCode.Alpha1))
@@ -129,6 +152,13 @@ public class PlayerTankController : MonoBehaviour {
        // 
     }
 
+    private void SetFixState()
+    {
+        //can't fire,move while reparing.
+        weaponComponent.SetRepairFunction();
+        movementComponent.SetRepairFunction();
+        tank.SetRepairFunction();
+    }
 
 
 }
