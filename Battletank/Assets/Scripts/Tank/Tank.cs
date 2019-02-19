@@ -132,5 +132,21 @@ public class Tank : MonoBehaviour {
             playerUIComponent.UpdateHealth(health);
     }
 
+    public void Reload()
+    {
+        if(weaponType.Equals(WeaponType.Primary))
+        {
+            weaponComponent.ReloadPrimaryAmmo();
+        }
+        else
+        {
+            weaponComponent.ReloadSecondaryAmmo();
+        }
+    }
+
+    public WeaponType GetWeaponType()
+    {
+        return weaponType;
+    }
     
 }

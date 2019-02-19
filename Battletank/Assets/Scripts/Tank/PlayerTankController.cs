@@ -109,6 +109,11 @@ public class PlayerTankController : MonoBehaviour {
             isFirstPerson = !isFirstPerson;
         }
 
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            Reload();
+        }
+
     }
 
 
@@ -158,6 +163,11 @@ public class PlayerTankController : MonoBehaviour {
         weaponComponent.SetRepairFunction();
         movementComponent.SetRepairFunction();
         tank.SetRepairFunction();
+    }
+
+    private void Reload()
+    {
+        tank.Reload();
     }
 
 

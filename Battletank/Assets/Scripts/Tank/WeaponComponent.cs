@@ -15,6 +15,11 @@ public class Weapon
     public Vector3 fireDir;
     public float fireTimer;
     public float rpm;
+    public int currentMagazine;
+    public int maxMagazine;
+    public int maxAmmo;
+    public int loadedAmmo;
+    public float refillInterval;
 }
 
 [System.Serializable]
@@ -36,14 +41,21 @@ public class WeaponComponent : MonoBehaviour {
     public GameObject projectile;
     public Transform firePos;
 
+    private Tank tank;
     private bool mortarOn;
     private bool isDead;
     private bool isRepairing;
+    private float primaryRefillTimer;
+    private float secondaryRefillTimer;
 
     private void Start()
     {
         isDead = false;
         isRepairing = false;
+        primaryRefillTimer = 0f;
+        secondaryRefillTimer = 0f;
+        tank = GetComponent<Tank>();
+        SetWeaponInfo();
     }
 
     private void Update()
@@ -53,9 +65,10 @@ public class WeaponComponent : MonoBehaviour {
             if (mortarOn)
             {
                 GameObject map = GetComponent<PlayerTankController>().map;
-                if (Input.GetMouseButtonDown(0) && Time.time - secondaryWeapon.fireTimer > secondaryWeapon.rpm)
+                if (Input.GetMouseButtonDown(0) && Time.time - secondaryWeapon.fireTimer > secondaryWeapon.rpm && secondaryWeapon.currentMagazine > 0)
                 {
                     Vector3 clickedPosition = map.GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
+                    secondaryWeapon.currentMagazine--;
                     //firer
                     Debug.Log("Firing Mortar on :" + clickedPosition);
 
@@ -74,14 +87,18 @@ public class WeaponComponent : MonoBehaviour {
                 }
             }
         }
+        RefilAmmo();
+        CheckPrimaryAmmo();
+        CheckSecondaryAmmo();
     }
 
     public void FirePrimary(PrimaryWeaponType bulletType)
     {
-        SetPrimaryWeapon(bulletType);
-        if (Time.time - primaryWeapon.fireTimer > primaryWeapon.rpm)
+        if (Time.time - primaryWeapon.fireTimer > primaryWeapon.rpm && primaryWeapon.currentMagazine > 0)
         {
             primaryWeapon.fireTimer = Time.time;
+            primaryWeapon.currentMagazine--;
+            primaryWeapon.fireDir = firePos.forward;
             GameObject pro = Instantiate(projectile, firePos.position, Quaternion.identity) as GameObject;
             ProjectileComponent pc = pro.GetComponent<ProjectileComponent>();
             pc.SetWeaponType(primaryWeapon);
@@ -91,8 +108,6 @@ public class WeaponComponent : MonoBehaviour {
 
     public void FireSecondary(SecondaryWeaponType bulletType)
     {
-        SetSecondaryWeapon(bulletType);
-        Debug.Log("FireClicked Secondary");
         if (secondaryWeapon.type == SecondaryWeaponType.Mortar || secondaryWeapon.type == SecondaryWeaponType.Artilery)
         {
             GameObject map = GetComponent<PlayerTankController>().map;
@@ -105,9 +120,11 @@ public class WeaponComponent : MonoBehaviour {
         }
         else
         {
-            if (Time.time - secondaryWeapon.fireTimer > secondaryWeapon.rpm)
+            if (Time.time - secondaryWeapon.fireTimer > secondaryWeapon.rpm && secondaryWeapon.currentMagazine > 0)
             {
                 secondaryWeapon.fireTimer = Time.time;
+                secondaryWeapon.fireDir = firePos.forward;
+                secondaryWeapon.currentMagazine--;
                 GameObject pro = Instantiate(projectile, firePos.position, Quaternion.identity) as GameObject;
                 ProjectileComponent pc = pro.GetComponent<ProjectileComponent>();
                 pc.SetWeaponType(secondaryWeapon);
@@ -122,12 +139,16 @@ public class WeaponComponent : MonoBehaviour {
 
     }
 
+    private void SetWeaponInfo()
+    {
+        SetPrimaryWeapon(tank.primaryBulletType);
+        SetSecondaryWeapon(tank.secondaryBulletType);
+
+    }
+
     private void SetPrimaryWeapon(PrimaryWeaponType primaryWeaponType)
     {
-        if(primaryWeapon == null)
-        {
-            primaryWeapon = new PrimaryWeapon();
-        }
+        primaryWeapon = new PrimaryWeapon();
         if(primaryWeaponType.Equals(PrimaryWeaponType.APShell))
         {
             primaryWeapon.blastRadius = 5f;
@@ -137,6 +158,11 @@ public class WeaponComponent : MonoBehaviour {
             primaryWeapon.type = PrimaryWeaponType.APShell;
             primaryWeapon.fireDir = firePos.forward;
             primaryWeapon.rpm = 60f / 30f;
+            primaryWeapon.currentMagazine = 1;
+            primaryWeapon.maxMagazine = 1;
+            primaryWeapon.loadedAmmo = 5;
+            primaryWeapon.maxAmmo = 5;
+            primaryWeapon.refillInterval = 20f;
         }
         else if (primaryWeaponType.Equals(PrimaryWeaponType.HEShell))
         {
@@ -147,7 +173,11 @@ public class WeaponComponent : MonoBehaviour {
             primaryWeapon.type = PrimaryWeaponType.HEShell;
             primaryWeapon.fireDir = firePos.forward;
             primaryWeapon.rpm = 60f / 30f;
-
+            primaryWeapon.currentMagazine = 1;
+            primaryWeapon.maxMagazine = 1;
+            primaryWeapon.loadedAmmo = 5;
+            primaryWeapon.maxAmmo = 5;
+            primaryWeapon.refillInterval = 20f;
         }
         else if(primaryWeaponType.Equals(PrimaryWeaponType.SABOTShell))
         {
@@ -158,15 +188,17 @@ public class WeaponComponent : MonoBehaviour {
             primaryWeapon.type = PrimaryWeaponType.SABOTShell;
             primaryWeapon.fireDir = firePos.forward;
             primaryWeapon.rpm = 60f / 10f;
+            primaryWeapon.currentMagazine = 1;
+            primaryWeapon.maxMagazine = 1;
+            primaryWeapon.loadedAmmo = 5;
+            primaryWeapon.maxAmmo = 5;
+            primaryWeapon.refillInterval = 20f;
         }
     }
 
     private void SetSecondaryWeapon(SecondaryWeaponType secondaryWeaponType)
     {
-        if (secondaryWeapon == null)
-        {
-            secondaryWeapon = new SecondaryWeapon();
-        }
+        secondaryWeapon = new SecondaryWeapon();
         if (secondaryWeaponType.Equals(SecondaryWeaponType.SmartShell))
         {
             secondaryWeapon.blastRadius = 20f;
@@ -176,10 +208,20 @@ public class WeaponComponent : MonoBehaviour {
             secondaryWeapon.type = SecondaryWeaponType.SmartShell;
             secondaryWeapon.fireDir = firePos.forward;
             secondaryWeapon.rpm = 60f / 10f;
+            secondaryWeapon.currentMagazine = 1;
+            secondaryWeapon.maxMagazine = 1;
+            secondaryWeapon.loadedAmmo = 5;
+            secondaryWeapon.maxAmmo = 5;
+            secondaryWeapon.refillInterval = 20f;
         }
         else if (secondaryWeaponType.Equals(SecondaryWeaponType.Dart))
         {
             secondaryWeapon.rpm = 60f / 10f;
+            secondaryWeapon.currentMagazine = 1;
+            secondaryWeapon.maxMagazine = 1;
+            secondaryWeapon.loadedAmmo = 5;
+            secondaryWeapon.maxAmmo = 5;
+            secondaryWeapon.refillInterval = 20f;
         }
         else if (secondaryWeaponType.Equals(SecondaryWeaponType.Artilery))
         {
@@ -188,6 +230,11 @@ public class WeaponComponent : MonoBehaviour {
             secondaryWeapon.bulletSpeed = 200f;
             secondaryWeapon.damage = 20;
             secondaryWeapon.rpm = 60f / 10f;
+            secondaryWeapon.currentMagazine = 1;
+            secondaryWeapon.maxMagazine = 1;
+            secondaryWeapon.loadedAmmo = 5;
+            secondaryWeapon.maxAmmo = 5;
+            secondaryWeapon.refillInterval = 20f;
         }
         else if (secondaryWeaponType.Equals(SecondaryWeaponType.Mortar))
         {
@@ -196,7 +243,79 @@ public class WeaponComponent : MonoBehaviour {
             secondaryWeapon.bulletSpeed = 100f;
             secondaryWeapon.damage = 10;
             secondaryWeapon.rpm = 60f / 30f;
+            secondaryWeapon.currentMagazine = 4;
+            secondaryWeapon.maxMagazine = 4;
+            secondaryWeapon.loadedAmmo = 20;
+            secondaryWeapon.maxAmmo = 20;
+            secondaryWeapon.refillInterval = 40f;
         }
+    }
+
+    private void CheckPrimaryAmmo()
+    {
+        //only for ai.
+        if(primaryWeapon.currentMagazine == 0 && gameObject.layer == 10)
+        {
+            primaryWeapon.currentMagazine = primaryWeapon.maxMagazine;
+            primaryWeapon.loadedAmmo -= primaryWeapon.maxMagazine;
+        }
+    }
+    private void CheckSecondaryAmmo()
+    {
+        //only for ai.
+        if (secondaryWeapon.currentMagazine == 0 && gameObject.layer == 10)
+        {
+            secondaryWeapon.currentMagazine = secondaryWeapon.maxMagazine;
+            secondaryWeapon.loadedAmmo -= secondaryWeapon.maxMagazine;
+        }
+    }
+
+    private void RefilAmmo()
+    {
+        primaryRefillTimer += Time.deltaTime;
+        secondaryRefillTimer += Time.deltaTime;
+        if (primaryRefillTimer > primaryWeapon.refillInterval)
+        {
+            primaryRefillTimer = 0f;
+            primaryWeapon.loadedAmmo += primaryWeapon.maxMagazine;
+            if (primaryWeapon.loadedAmmo > primaryWeapon.maxAmmo)
+            {
+                primaryWeapon.loadedAmmo = primaryWeapon.maxAmmo;
+            }
+        }
+
+        if (secondaryRefillTimer > secondaryWeapon.refillInterval)
+        {
+            secondaryRefillTimer = 0f;
+            secondaryWeapon.loadedAmmo += primaryWeapon.maxMagazine;
+            if (secondaryWeapon.loadedAmmo > secondaryWeapon.maxAmmo)
+            {
+                secondaryWeapon.loadedAmmo = secondaryWeapon.maxAmmo;
+            }
+        }
+    }
+
+
+
+    public void ReloadPrimaryAmmo()
+    {
+        if (primaryWeapon.loadedAmmo > (primaryWeapon.maxMagazine - primaryWeapon.currentMagazine) && primaryWeapon.maxMagazine > primaryWeapon.currentMagazine)
+        {
+            primaryWeapon.loadedAmmo -= (primaryWeapon.maxMagazine - primaryWeapon.currentMagazine);
+            primaryWeapon.currentMagazine += (primaryWeapon.maxMagazine - primaryWeapon.currentMagazine);
+            primaryWeapon.loadedAmmo = (primaryWeapon.loadedAmmo < 0 )? 0 : primaryWeapon.loadedAmmo;
+        }
+    }
+
+    public void ReloadSecondaryAmmo()
+    {
+        if (secondaryWeapon.loadedAmmo > (secondaryWeapon.maxMagazine - secondaryWeapon.currentMagazine) && secondaryWeapon.maxMagazine > secondaryWeapon.currentMagazine)
+        {
+            secondaryWeapon.loadedAmmo -= (secondaryWeapon.currentMagazine += secondaryWeapon.maxMagazine - secondaryWeapon.currentMagazine);
+            secondaryWeapon.currentMagazine += (secondaryWeapon.maxMagazine - secondaryWeapon.currentMagazine);
+            secondaryWeapon.loadedAmmo = (secondaryWeapon.loadedAmmo < 0) ? 0 : secondaryWeapon.loadedAmmo;
+        }
+        
     }
 
     public void DisabledFunction()
@@ -207,6 +326,16 @@ public class WeaponComponent : MonoBehaviour {
     public void SetRepairFunction()
     {
         isRepairing = !isRepairing;
+    }
+
+    public string GetPrimaryAmmoInfo()
+    {
+        return primaryWeapon.currentMagazine + " / " + primaryWeapon.loadedAmmo;
+    }
+
+    public string GetSecondaryAmmoInfo()
+    {
+        return secondaryWeapon.currentMagazine + " / " + secondaryWeapon.loadedAmmo;
     }
 
 }

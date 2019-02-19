@@ -663,6 +663,26 @@ Prefab:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114225408353158218, guid: 326b5d70ddb882f4686f7279d097cfaa,
+        type: 2}
+      propertyPath: ammoText
+      value: 
+      objectReference: {fileID: 722836116}
+    - target: {fileID: 224003194031105930, guid: 326b5d70ddb882f4686f7279d097cfaa,
+        type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224724112821353570, guid: 326b5d70ddb882f4686f7279d097cfaa,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 114060248109074168, guid: 326b5d70ddb882f4686f7279d097cfaa,
+        type: 2}
+      propertyPath: m_FontData.m_FontSize
+      value: 55
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 326b5d70ddb882f4686f7279d097cfaa, type: 2}
   m_IsPrefabAsset: 0
@@ -829,6 +849,12 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &722836116 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114060248109074168, guid: 326b5d70ddb882f4686f7279d097cfaa,
+    type: 2}
+  m_PrefabInternal: {fileID: 663982026}
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &788827290
 GameObject:
   m_ObjectHideFlags: 0

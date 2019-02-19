@@ -8,13 +8,24 @@ public class PlayerUIComponent : MonoBehaviour {
     public GameObject crosshair;
     public Text healthText;
     public Slider repairSlider;
+    public Text ammoText;
+
+    private Tank tank;
+    private WeaponComponent weaponComponent;
 
 
 	// Use this for initialization
 	private void Awake () {
         DisableCursor();
+        tank = GetComponent<Tank>();
+        weaponComponent = GetComponent<WeaponComponent>();
     }
-	
+
+    private void LateUpdate()
+    {
+        UpdateAmmo();
+    }
+
     public void DisableCursor()
     {
         Cursor.visible = false;
@@ -48,5 +59,17 @@ public class PlayerUIComponent : MonoBehaviour {
     public void UpdateFixUI(float timer)
     {
         repairSlider.value = timer;
+    }
+
+    private void UpdateAmmo()
+    {
+        if(tank.GetWeaponType() == WeaponType.Primary)
+        {
+            ammoText.text = weaponComponent.GetPrimaryAmmoInfo();
+        }
+        else
+        {
+            ammoText.text = weaponComponent.GetSecondaryAmmoInfo();
+        }
     }
 }
