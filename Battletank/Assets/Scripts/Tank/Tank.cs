@@ -18,6 +18,7 @@ public class Tank : MonoBehaviour {
     private PlayerUIComponent playerUIComponent;
     private float repairHoldTimer;
     private WeaponType weaponType;
+    private bool isDead;
     private bool isRepairing;
 
 
@@ -31,6 +32,8 @@ public class Tank : MonoBehaviour {
         weaponComponent = GetComponent<WeaponComponent>();
         playerUIComponent = GetComponent<PlayerUIComponent>();
         playerTankController = GetComponent<PlayerTankController>();
+        isDead = false;
+        isRepairing = false;
         UpdateHealth();
     }
 
@@ -38,16 +41,13 @@ public class Tank : MonoBehaviour {
     {
         if(health <= 0)
         {
+            isDead = true;
             health = 0;
             UpdateHealth();
-            if (gameObject.layer == 11)
+            if (gameObject.layer != 11)
             {
-                playerTankController.DisableFunction();
-                weaponComponent.DisabledFunction();
-                movementComponent.DisableFunction();
-            }
-            else
                 Destroy(gameObject);
+            }
         }
     }
 
@@ -149,4 +149,9 @@ public class Tank : MonoBehaviour {
         return weaponType;
     }
     
+
+    public bool IsDead()
+    {
+        return isDead;
+    }
 }

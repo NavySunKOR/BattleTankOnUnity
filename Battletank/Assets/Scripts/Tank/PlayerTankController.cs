@@ -21,7 +21,6 @@ public class PlayerTankController : MonoBehaviour {
     private MovementComponent movementComponent;
     private bool isMagnified;
     private bool isFirstPerson;
-    private bool isDead;
 
     private void Awake()
     {
@@ -35,25 +34,18 @@ public class PlayerTankController : MonoBehaviour {
 
         isMagnified = false;
         isFirstPerson = false;
-        isDead = false;
     }
 
 
 
     private void Update()
     {
-        if(!isDead)
+        if(!tank.IsDead())
         {
             AimProjection();
             InputControl();
             CheckMagnified();
         }
-    }
-    
-
-    public void DisableFunction()
-    {
-        isDead = true;
     }
 
     private void InputControl()

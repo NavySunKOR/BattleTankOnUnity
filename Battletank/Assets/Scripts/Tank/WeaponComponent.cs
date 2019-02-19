@@ -43,14 +43,12 @@ public class WeaponComponent : MonoBehaviour {
 
     private Tank tank;
     private bool mortarOn;
-    private bool isDead;
     private bool isRepairing;
     private float primaryRefillTimer;
     private float secondaryRefillTimer;
 
     private void Start()
     {
-        isDead = false;
         isRepairing = false;
         primaryRefillTimer = 0f;
         secondaryRefillTimer = 0f;
@@ -60,7 +58,7 @@ public class WeaponComponent : MonoBehaviour {
 
     private void Update()
     {
-        if(!isDead && !isRepairing)
+        if(!tank.IsDead() && !isRepairing)
         {
             if (mortarOn)
             {
@@ -257,7 +255,8 @@ public class WeaponComponent : MonoBehaviour {
         if(primaryWeapon.currentMagazine == 0 && gameObject.layer == 10)
         {
             primaryWeapon.currentMagazine = primaryWeapon.maxMagazine;
-            primaryWeapon.loadedAmmo -= primaryWeapon.maxMagazine;
+            //TODO: check this later for balance
+            primaryWeapon.loadedAmmo = primaryWeapon.maxMagazine;
         }
     }
     private void CheckSecondaryAmmo()
@@ -266,7 +265,8 @@ public class WeaponComponent : MonoBehaviour {
         if (secondaryWeapon.currentMagazine == 0 && gameObject.layer == 10)
         {
             secondaryWeapon.currentMagazine = secondaryWeapon.maxMagazine;
-            secondaryWeapon.loadedAmmo -= secondaryWeapon.maxMagazine;
+            //TODO: check this later for balance
+            secondaryWeapon.loadedAmmo = secondaryWeapon.maxMagazine;
         }
     }
 
@@ -316,11 +316,6 @@ public class WeaponComponent : MonoBehaviour {
             secondaryWeapon.loadedAmmo = (secondaryWeapon.loadedAmmo < 0) ? 0 : secondaryWeapon.loadedAmmo;
         }
         
-    }
-
-    public void DisabledFunction()
-    {
-        isDead = true;
     }
 
     public void SetRepairFunction()

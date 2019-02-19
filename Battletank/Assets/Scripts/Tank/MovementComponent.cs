@@ -10,25 +10,25 @@ public class MovementComponent : MonoBehaviour {
 
     public float rotationSpeed;
 
+    private Tank tank;
     private Rigidbody rb;
     private float horizontal;
     private float vertical;
     private Vector3 maximumSpeedVector;
-    private bool isDead;
     private bool isRepairing;
 
 
     // Use this for initialization
     void Start () {
-        rb = transform.GetComponent<Rigidbody>();
-        isDead = false;
+        tank = GetComponent<Tank>();
+        rb = GetComponent<Rigidbody>();
         isRepairing = false;
 
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if(!isDead && !isRepairing)
+        if(!tank.IsDead() && !isRepairing)
         {
             maximumSpeedVector = tankTr.forward * maximumSpeed;
             Vector3 speedInput = tankTr.forward * vertical * tankSpeed;
@@ -48,12 +48,7 @@ public class MovementComponent : MonoBehaviour {
     {
         this.horizontal = horizontal;
     }
-
-    public void DisableFunction()
-    {
-        isDead = true;
-    }
-
+    
     public void SetRepairFunction()
     {
         isRepairing = !isRepairing;
