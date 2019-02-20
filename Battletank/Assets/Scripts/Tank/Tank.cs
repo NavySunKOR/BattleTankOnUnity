@@ -46,6 +46,7 @@ public class Tank : MonoBehaviour {
             UpdateHealth();
             if (gameObject.layer != 11)
             {
+                GameObject.FindGameObjectWithTag("GameManager").SendMessage("AddEnemyKillCount");
                 Destroy(gameObject);
             }
         }

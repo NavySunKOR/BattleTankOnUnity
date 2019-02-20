@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 114804490526617528}
   m_Layer: 10
   m_Name: EnemyTank
-  m_TagString: Tank
+  m_TagString: EnemyTank
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -791,7 +791,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d953c7ecf52eccc4fb8bb813f1f9a8b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTr: {fileID: 0}
   trackingDistance: 100
   fireDistance: 150
 --- !u!114 &114658273972632418
@@ -820,6 +819,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f0ff24237a1d83448362c799f9b9004, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  primaryWeapon:
+    damage: 0
+    bulletSpeed: 0
+    bulletDrop: 0
+    blastRadius: 0
+    fireDir: {x: 0, y: 0, z: 0}
+    fireTimer: 0
+    rpm: 0
+    currentMagazine: 0
+    maxMagazine: 0
+    maxAmmo: 0
+    loadedAmmo: 0
+    refillInterval: 0
+    type: 0
   projectile: {fileID: 1488957054643552, guid: 295fdf946e40b7d4b889f752d67e7da8, type: 2}
   firePos: {fileID: 4831380131263846}
 --- !u!114 &114819372766035466

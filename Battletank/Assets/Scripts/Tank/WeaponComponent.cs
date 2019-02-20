@@ -36,7 +36,9 @@ public class SecondaryWeapon : Weapon
 
 public class WeaponComponent : MonoBehaviour {
 
+    [SerializeField]
     private PrimaryWeapon primaryWeapon;
+    [SerializeField]
     private SecondaryWeapon secondaryWeapon;
     public GameObject projectile;
     public Transform firePos;
@@ -299,22 +301,42 @@ public class WeaponComponent : MonoBehaviour {
 
     public void ReloadPrimaryAmmo()
     {
-        if (primaryWeapon.loadedAmmo > (primaryWeapon.maxMagazine - primaryWeapon.currentMagazine) && primaryWeapon.maxMagazine > primaryWeapon.currentMagazine)
+        if(primaryWeapon.maxMagazine > primaryWeapon.currentMagazine)
         {
-            primaryWeapon.loadedAmmo -= (primaryWeapon.maxMagazine - primaryWeapon.currentMagazine);
-            primaryWeapon.currentMagazine += (primaryWeapon.maxMagazine - primaryWeapon.currentMagazine);
-            primaryWeapon.loadedAmmo = (primaryWeapon.loadedAmmo < 0 )? 0 : primaryWeapon.loadedAmmo;
+            int requireAmmo = (primaryWeapon.maxMagazine - primaryWeapon.currentMagazine);
+            if (primaryWeapon.loadedAmmo >= requireAmmo)
+            {
+                primaryWeapon.loadedAmmo -= requireAmmo;
+                primaryWeapon.currentMagazine += requireAmmo;
+                primaryWeapon.loadedAmmo = (primaryWeapon.loadedAmmo < 0) ? 0 : primaryWeapon.loadedAmmo;
+            }
+            else
+            {
+                primaryWeapon.currentMagazine += primaryWeapon.loadedAmmo;
+                primaryWeapon.loadedAmmo = 0;
+            }
         }
+        
     }
 
     public void ReloadSecondaryAmmo()
     {
-        if (secondaryWeapon.loadedAmmo > (secondaryWeapon.maxMagazine - secondaryWeapon.currentMagazine) && secondaryWeapon.maxMagazine > secondaryWeapon.currentMagazine)
+        if(secondaryWeapon.maxMagazine > secondaryWeapon.currentMagazine)
         {
-            secondaryWeapon.loadedAmmo -= (secondaryWeapon.currentMagazine += secondaryWeapon.maxMagazine - secondaryWeapon.currentMagazine);
-            secondaryWeapon.currentMagazine += (secondaryWeapon.maxMagazine - secondaryWeapon.currentMagazine);
-            secondaryWeapon.loadedAmmo = (secondaryWeapon.loadedAmmo < 0) ? 0 : secondaryWeapon.loadedAmmo;
+            int requireAmmo = (secondaryWeapon.maxMagazine - secondaryWeapon.currentMagazine);
+            if (secondaryWeapon.loadedAmmo >= requireAmmo)
+            {
+                secondaryWeapon.loadedAmmo -= requireAmmo;
+                secondaryWeapon.currentMagazine += requireAmmo;
+                secondaryWeapon.loadedAmmo = (secondaryWeapon.loadedAmmo < 0) ? 0 : secondaryWeapon.loadedAmmo;
+            }
+            else
+            {
+                secondaryWeapon.currentMagazine += secondaryWeapon.loadedAmmo;
+                secondaryWeapon.loadedAmmo = 0;
+            }
         }
+        
         
     }
 

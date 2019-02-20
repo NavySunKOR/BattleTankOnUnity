@@ -120,7 +120,7 @@ public class ProjectileComponent : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.transform.CompareTag("Tank"))
+        if (collision.transform.CompareTag("PlayerTank") || collision.transform.CompareTag("EnemyTank"))
         {
             collision.transform.GetComponent<Tank>().TookDamage(damage);
         }
@@ -134,7 +134,7 @@ public class ProjectileComponent : MonoBehaviour {
             Collider[] collider = Physics.OverlapSphere(transform.position, blastRadius, layer);
             foreach (Collider coll in collider)
             {
-                if (coll.transform.CompareTag("Tank"))
+                if (collision.transform.CompareTag("PlayerTank") || collision.transform.CompareTag("EnemyTank"))
                 {
                     coll.GetComponent<Tank>().TookDamage((int)damage / 2);
                 }

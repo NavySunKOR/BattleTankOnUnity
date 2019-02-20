@@ -4,16 +4,17 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class AITankController : MonoBehaviour {
-
-    public Transform playerTr;
+    
     public float trackingDistance;
     public float fireDistance;
     private Tank tank;
     private NavMeshAgent agent;
+    private Transform playerTr;
 
 
     private void Awake()
     {
+        playerTr = GameObject.FindGameObjectWithTag("PlayerTank").transform;
         agent = GetComponent<NavMeshAgent>();
         tank = GetComponent<Tank>();
     }

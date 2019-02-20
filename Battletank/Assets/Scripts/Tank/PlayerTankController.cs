@@ -19,6 +19,7 @@ public class PlayerTankController : MonoBehaviour {
     private PlayerUIComponent uiComponent;
     private WeaponComponent weaponComponent;
     private MovementComponent movementComponent;
+    private GameModeUI modeUI;
     private bool isMagnified;
     private bool isFirstPerson;
 
@@ -32,6 +33,8 @@ public class PlayerTankController : MonoBehaviour {
         weaponComponent = GetComponent<WeaponComponent>();
         movementComponent = GetComponent<MovementComponent>();
 
+        modeUI = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameModeUI>();
+
         isMagnified = false;
         isFirstPerson = false;
     }
@@ -40,7 +43,7 @@ public class PlayerTankController : MonoBehaviour {
 
     private void Update()
     {
-        if(!tank.IsDead())
+        if(!tank.IsDead() && !modeUI.IsGamePaused())
         {
             AimProjection();
             InputControl();
