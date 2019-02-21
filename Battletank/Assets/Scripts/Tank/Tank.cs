@@ -16,6 +16,7 @@ public class Tank : MonoBehaviour {
     private MovementComponent movementComponent;
     private WeaponComponent weaponComponent;
     private PlayerUIComponent playerUIComponent;
+    private AudioComponent audioComponent;
     private float repairHoldTimer;
     private WeaponType weaponType;
     private bool isDead;
@@ -32,6 +33,7 @@ public class Tank : MonoBehaviour {
         weaponComponent = GetComponent<WeaponComponent>();
         playerUIComponent = GetComponent<PlayerUIComponent>();
         playerTankController = GetComponent<PlayerTankController>();
+        audioComponent = GetComponent<AudioComponent>();
         isDead = false;
         isRepairing = false;
         LoadWeaponType();
@@ -98,11 +100,19 @@ public class Tank : MonoBehaviour {
     public void Move(float vertical)
     {
         movementComponent.Move(vertical);
+        audioComponent.PlayEngineRun();
+
+    }
+
+    public void Idle()
+    {
+        audioComponent.PlayEngineIdle();
     }
 
     public void Rotate(float horizontal)
     {
         movementComponent.Rotate(horizontal);
+        audioComponent.PlayEngineRun();
     }
 
     public void TookDamage(int damage)

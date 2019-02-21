@@ -39,7 +39,6 @@ public class Deathmatch : MonoBehaviour {
             if(Input.GetKeyDown(KeyCode.Escape))
             {
                 gameModeUI.PopUpPauseMenu();
-                Debug.Log("Input!");
             }
         }
 

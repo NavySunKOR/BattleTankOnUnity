@@ -60,10 +60,17 @@ public class PlayerTankController : MonoBehaviour {
         }
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
-        tank.Move(vertical);
-        tank.Rotate(horizontal);
+        if (vertical * vertical > Mathf.Epsilon|| horizontal * horizontal > Mathf.Epsilon)
+        {
+            tank.Move(vertical);
+            tank.Rotate(horizontal);
+        }
+        else
+        {
+            tank.Idle();
+        }
 
-        if(Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.X))
         {
             SetFixState();
         }

@@ -47,7 +47,7 @@ public class AITankController : MonoBehaviour {
         if(Physics.Raycast(ray,out hit, fireDistance,1<<11))
         {
             Vector3 lookEuler = Quaternion.LookRotation((hit.point - transform.position).normalized).eulerAngles;
-            lookEuler.x -= 5f;
+            lookEuler.x -= 1f;
             tank.AimAt(lookEuler);
             tank.Fire();
         }
