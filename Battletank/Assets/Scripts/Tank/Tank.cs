@@ -34,6 +34,7 @@ public class Tank : MonoBehaviour {
         playerTankController = GetComponent<PlayerTankController>();
         isDead = false;
         isRepairing = false;
+        LoadWeaponType();
         UpdateHealth();
     }
 
@@ -154,5 +155,14 @@ public class Tank : MonoBehaviour {
     public bool IsDead()
     {
         return isDead;
+    }
+
+    private void LoadWeaponType()
+    {
+        PrimaryWeaponType pri = (PrimaryWeaponType)PlayerPrefs.GetInt("PrimaryWeapon");
+        SecondaryWeaponType sec = (SecondaryWeaponType)PlayerPrefs.GetInt("SecondaryWeapon");
+        primaryBulletType = pri;
+        secondaryBulletType = sec;
+
     }
 }
