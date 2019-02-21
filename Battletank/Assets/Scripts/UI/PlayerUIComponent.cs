@@ -9,6 +9,7 @@ public class PlayerUIComponent : MonoBehaviour {
     public Text healthText;
     public Slider repairSlider;
     public Text ammoText;
+    public Text weaponText;
 
     private Tank tank;
     private WeaponComponent weaponComponent;
@@ -24,6 +25,7 @@ public class PlayerUIComponent : MonoBehaviour {
     private void LateUpdate()
     {
         UpdateAmmo();
+        UpateWeaponType(); // change to update by event later
     }
 
     public void DisableCursor()
@@ -71,5 +73,18 @@ public class PlayerUIComponent : MonoBehaviour {
         {
             ammoText.text = weaponComponent.GetSecondaryAmmoInfo();
         }
+    }
+
+    private void UpateWeaponType()
+    {
+        if(tank.GetWeaponType() == WeaponType.Primary)
+        {
+            weaponText.text = tank.primaryBulletType.ToString();
+        }
+        else
+        {
+            weaponText.text = tank.secondaryBulletType.ToString();
+        }
+       
     }
 }
